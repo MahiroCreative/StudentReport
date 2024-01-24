@@ -6,6 +6,7 @@ class Bg;
 class Map;
 class Mushroom;
 class Flyingeye;
+class Timer;
 
 namespace
 {
@@ -30,6 +31,9 @@ public:
 	//シーンを終了させるかどうか
 	bool IsSceneEnd() const;
 
+	//クリアをさせるかどうか
+	bool IsSceneClear() const;
+
 private:
 
 	//マッシュルームの生成
@@ -37,6 +41,9 @@ private:
 
 	//フライアイの生成
 	void CreateFlyeye();
+
+	//制限時間までによけきったら
+	void GameClear();
 
 	//背景
 	Bg* m_pBg;
@@ -48,9 +55,13 @@ private:
 	Mushroom* m_pMushroom[kEnemyNum];
 	//フライアイ
 	Flyingeye* m_pFlyingeye[kEnemyNum];
+	//タイマー
+	Timer* m_pTimer;
 
 
 	bool m_isGameOver;  //ゲームオーバーかどうかのフラグ
+
+	bool m_isGameClear; //ゲームクリアかどうかのフラグ
 
 	bool m_isSceneEnd;
 
@@ -59,6 +70,11 @@ private:
 
 	//敵の数
 	int m_enemyNum;
+
+	//時間
+	int time;
+	//カウント
+	int count;
 
 	//フェードイン、アウト
 	int m_fadeAlpha;

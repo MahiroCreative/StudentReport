@@ -4,6 +4,7 @@
 #include "SceneStage1.h"
 #include "SceneStage2.h"
 #include "SceneSelect.h"
+#include "SceneClear.h"
 #include "SceneGameOver.h"
 
 class SceneManager
@@ -31,7 +32,8 @@ private:
 		kSceneKindMain4,
 		kSceneKindMain5,
 		kSceneKindMain6,
-		kSceneKindResult
+		kSceneKindResult,
+		kSceneKindClear
 	};
 
 private:
@@ -45,5 +47,6 @@ private:
 	SceneStage2 m_stage2;
 	SceneMain m_main;
 	SceneGameOver m_result;
+	SceneClear m_clear;
 };
 

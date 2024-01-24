@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Mushroom.h"
 #include "Flyingeye.h"
+#include "Timer.h"
 #include "DxLib.h"
 namespace
 {
@@ -12,29 +13,15 @@ namespace
 
 	//Å‘å“G‚Ì”
 	constexpr int kEnemyMax = 20;
+
+	//§ŒÀŽžŠÔ
+	constexpr int kMaxTime = 60;
 }
 
 
 SceneStage1::SceneStage1()
 {
-	//ƒƒ‚ƒŠŠm•Û
-	m_pBg = new Bg;
-	m_pMap = new Map;
-	m_pPlayer = new Player;
-
-	m_pPlayer->SetMap(m_pMap);
-	m_pMap->setPlayer(m_pPlayer);
-
-
-	for (int i = 1; i < kEnemyMax; i++)
-	{
-		m_pMushroom[i] = nullptr;
-	}
-
-	for (int f = 0; f < kEnemyMax; f++)
-	{
-		m_pFlyingeye[f] = nullptr;
-	}
+	
 }
 
 SceneStage1::~SceneStage1()
@@ -60,15 +47,38 @@ SceneStage1::~SceneStage1()
 
 void SceneStage1::Init()
 {
+	time = 0;
+	m_isGameClear = false;
+	//ƒƒ‚ƒŠŠm•Û
+	m_pBg = new Bg;
+	m_pMap = new Map;
+	m_pPlayer = new Player;
+	m_pTimer = new Timer;
+	m_pPlayer->SetMap(m_pMap);
+	m_pMap->setPlayer(m_pPlayer);
+
+
+	for (int i = 1; i < kEnemyMax; i++)
+	{
+		m_pMushroom[i] = nullptr;
+	}
+
+	for (int f = 0; f < kEnemyMax; f++)
+	{
+		m_pFlyingeye[f] = nullptr;
+	}
+
 	m_enemyNum = 0;	
 	m_pMap->Init();
 	m_pPlayer->Init();
+	m_pTimer->Init();
 }
 
 void SceneStage1::Update()
 {
 	m_pMap->Update();
 	m_pPlayer->Update();
+	m_pTimer->Update();
 	m_SpearRect = m_pPlayer->GetSpearRect();
 	Rect PlayerRect = m_pPlayer->GetColRect();
 
@@ -124,8 +134,8 @@ void SceneStage1::Update()
 		}
 	}
 
-	
 	HitPlayer();
+	GameClear();
 }
 
 void SceneStage1::Draw()
@@ -150,6 +160,8 @@ void SceneStage1::Draw()
 	}
 
 	m_pPlayer->Draw();
+
+	m_pTimer->Draw();
 }
 
 void SceneStage1::End()
@@ -183,6 +195,11 @@ bool SceneStage1::IsSceneEnd() const
 	return m_isSceneEnd && (m_fadeAlpha >= 255);
 }
 
+bool SceneStage1::IsSceneClear() const
+{
+	return m_isGameClear;
+}
+
 void SceneStage1::CreateMushroom()
 {
 	for (int i = 1; i < kEnemyMax; i++)
@@ -211,5 +228,15 @@ void SceneStage1::CreateFlyeye()
 
 			return;
 		}
+	}
+}
+
+void SceneStage1::GameClear()
+{
+	int timer = m_pTimer->GetTimer();
+
+	if (timer <= 0)
+	{
+		m_isGameClear = true;
 	}
 }

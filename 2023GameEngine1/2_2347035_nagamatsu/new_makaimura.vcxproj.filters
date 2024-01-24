@@ -129,6 +129,9 @@
     <ClCompile Include="Map8.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>ソース ファイル\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Map8.h">
       <Filter>ヘッダー ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>ヘッダー ファイル\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

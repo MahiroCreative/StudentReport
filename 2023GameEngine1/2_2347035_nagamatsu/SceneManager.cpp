@@ -34,6 +34,8 @@ void SceneManager::Init()
 	case kSceneKindResult:
 		m_result.Init();
 		break;
+	case kSceneKindClear:
+		m_clear.Init();
 	default:
 		break;
 	}
@@ -58,6 +60,8 @@ void SceneManager::End()
 	case kSceneKindResult:
 		m_result.End();
 		break;
+	case kSceneKindClear:
+		m_clear.End();
 	default:
 		break;
 	}
@@ -105,7 +109,15 @@ void SceneManager::Update()
 
 			m_runScene = kSceneKindResult; //次のフレーム以降、実行したいシーン
 			m_result.Init(); //変更先シーンの初期化
-		}break;
+		}
+		if (m_stage1.IsSceneClear())
+		{
+			m_stage1.End();  //実行していたシーンの終了処理
+
+			m_runScene = kSceneKindClear; //次のフレーム以降、実行したいシーン
+			m_clear.Init(); //変更先シーンの初期化
+		}
+		break;
 	case kSceneKindMain2:
 		if (m_stage2.IsSceneEnd())
 		{
@@ -122,6 +134,14 @@ void SceneManager::Update()
 			m_runScene = kSceneKindTitle; //次のフレーム以降、実行したいシーン
 			m_start.Init(); //変更先シーンの初期化
 		}break;
+	case kSceneKindClear:
+		if (m_clear.IsSceneEnd())
+		{
+			m_clear.End();//実行していたシーンの終了処理
+
+			m_runScene = kSceneKindTitle; //次のフレーム以降、実行したいシーン
+			m_start.Init();//変更先シーンの初期化
+		}
 	}
 
 	//各シーンの更新を行う
@@ -142,6 +162,8 @@ void SceneManager::Update()
 	case kSceneKindResult:
 		m_result.Update();
 		break;
+	case kSceneKindClear:
+		m_clear.Update();
 	default:
 		break;
 	}
@@ -167,6 +189,8 @@ void SceneManager::Draw()
 	case kSceneKindResult:
 		m_result.Draw();
 		break;
+	case kSceneKindClear:
+		m_clear.Draw();
 	default:
 		break;
 	}
